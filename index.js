@@ -26,7 +26,7 @@ connection.connect(err => {
   }
 });
 
-app.use(express.static('public')); // Cambiar '/redoc.html' por 'public'
+app.use(express.static('public'));
 app.use(express.json());
 const theme = new SwaggerTheme();
 
@@ -67,7 +67,64 @@ app.get('/', (req, res) => {
   res.redirect('/api-docs');
 });
 
-// Rutas de la API
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Libro:
+ *       type: object
+ *       properties:
+ *         idLibro:
+ *           type: integer
+ *           description: ID del libro
+ *         Nombre:
+ *           type: string
+ *           description: Nombre del libro
+ *         Genero:
+ *           type: string
+ *           description: Género del libro
+ *         SubGenero:
+ *           type: string
+ *           description: Subgénero del libro
+ *         Autor:
+ *           type: string
+ *           description: Autor del libro
+ *         Idioma:
+ *           type: string
+ *           description: Idioma del libro
+ *         Editorial:
+ *           type: string
+ *           description: Editorial del libro
+ *         Año:
+ *           type: integer
+ *           description: Año de publicación del libro
+ */
+
+/**
+ * @swagger
+ * /libro:
+ *   get:
+ *     summary: Obtiene todos los libros o un libro específico por ID
+ *     parameters:
+ *       - in: query
+ *         name: idLibro
+ *         schema:
+ *           type: integer
+ *         description: ID del libro
+ *     responses:
+ *       200:
+ *         description: Lista de libros
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Libro'
+ *       404:
+ *         description: Libro no encontrado
+ *       500:
+ *         description: Error en la consulta a la base de datos
+ */
 app.get('/libro', async (req, res) => {
   try {
     if (typeof req.query.idLibro == 'undefined') {
@@ -90,6 +147,23 @@ app.get('/libro', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /libro:
+ *   post:
+ *     summary: Inserta un nuevo libro
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Libro'
+ *     responses:
+ *       201:
+ *         description: Libro insertado
+ *       404:
+ *         description: Error al insertar el libro
+ */
 app.post('/libro', async (req, res) => {
   try {
     const { Nombre, Genero, SubGenero, Autor, Idioma, Editorial, Año } = req.body;
@@ -104,6 +178,26 @@ app.post('/libro', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /libro/{idLibro}:
+ *   delete:
+ *     summary: Elimina un libro por ID
+ *     parameters:
+ *       - in: path
+ *         name: idLibro
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del libro a eliminar
+ *     responses:
+ *       200:
+ *         description: Libro eliminado
+ *       404:
+ *         description: Ya está eliminado
+ *       500:
+ *         description: Error al eliminar el libro
+ */
 app.delete('/libro/:idLibro', async (req, res) => {
   try {
     const idLibro = req.params.idLibro;
@@ -125,6 +219,32 @@ app.delete('/libro/:idLibro', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /libro/{idLibro}:
+ *   put:
+ *     summary: Actualiza un libro por ID
+ *     parameters:
+ *       - in: path
+ *         name: idLibro
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del libro a actualizar
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Libro'
+ *     responses:
+ *       200:
+ *         description: Libro actualizado
+ *       404:
+ *         description: No se pudo actualizar
+ *       500:
+ *         description: Error al actualizar el libro
+ */
 app.put('/libro/:idLibro', async (req, res) => {
   try {
     const idLibro = req.params.idLibro;
