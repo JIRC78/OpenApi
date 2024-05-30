@@ -1,0 +1,182 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API Libreria",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000"
+      }
+    ],
+    "paths": {
+      "/libro/{idLibro}": {
+        "get": {
+          "description": "Obtiene un libro por su ID",
+          "tags": [
+            "Libro"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "idLibro",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true,
+              "description": "ID del libro a obtener"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Datos del libro"
+            },
+            "404": {
+              "description": "El libro no fue encontrado"
+            }
+          }
+        },
+        "delete": {
+          "description": "Elimina un libro por su ID",
+          "tags": [
+            "Libro"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "idLibro",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true,
+              "description": "ID del libro a eliminar"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Libro eliminado exitosamente"
+            },
+            "404": {
+              "description": "El libro no fue encontrado"
+            }
+          }
+        },
+        "put": {
+          "description": "Actualiza un libro por su ID",
+          "tags": [
+            "Libro"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "idLibro",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true,
+              "description": "ID del libro a actualizar"
+            },
+            {
+              "in": "body",
+              "name": "libro",
+              "description": "Datos del libro a actualizar",
+              "required": true,
+              "schema": {
+                "$ref": "#/components/schemas/Libro"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Libro actualizado exitosamente"
+            },
+            "404": {
+              "description": "El libro no fue encontrado"
+            }
+          }
+        }
+      },
+      "/libro": {
+        "post": {
+          "description": "Inserta un nuevo libro",
+          "tags": [
+            "Libro"
+          ],
+          "requestBody": {
+            "description": "Datos del nuevo libro",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Libro"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Libro insertado exitosamente"
+            },
+            "404": {
+              "description": "Error al insertar el libro"
+            }
+          }
+        },
+        "get": {
+          "description": "Welcome to swagger-jsdoc!",
+          "responses": {
+            "200": {
+              "description": "Returns a mysterious string."
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Libro": {
+          "type": "object",
+          "properties": {
+            "idLibro": {
+              "type": "integer",
+              "description": "Identificador del libro"
+            },
+            "Nombre": {
+              "type": "string",
+              "description": "Nombre del libro"
+            },
+            "Genero": {
+              "type": "string",
+              "description": "Género del libro"
+            },
+            "SubGenero": {
+              "type": "string",
+              "description": "Subgénero del libro"
+            },
+            "Autor": {
+              "type": "string",
+              "description": "Autor del libro"
+            },
+            "Idioma": {
+              "type": "string",
+              "description": "Idioma del libro"
+            },
+            "Editorial": {
+              "type": "string",
+              "description": "Editorial del libro"
+            },
+            "Año": {
+              "type": "integer",
+              "description": "Año de publicación del libro"
+            }
+          }
+        }
+      }
+    },
+    "tags": [
+      {
+        "name": "Libro",
+        "description": "Operaciones relacionadas con libros"
+      }
+    ]
+  }

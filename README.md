@@ -1,0 +1,2 @@
+API de Librería
+Este proyecto implementa una API para gestionar libros en una librería. Permite realizar operaciones básicas como consultar, insertar, eliminar y actualizar libros en una base de datos MySQL.

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación OpenAPI con Redoc</title>
+    <!-- Incluye los estilos de Redoc -->
+    <link href="https://cdn.jsdelivr.net/npm/redoc@latest/redoc.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Crea un contenedor para la interfaz de Redoc -->
+    <div id="redoc-container"></div>
+
+  
+    <script src="https://cdn.jsdelivr.net/npm/redoc@latest/bundles/redoc.standalone.js"></script>
+    <script>
+        Redoc.init('/api-docs-json', {
+            scrollYOffset: 'header',
+            theme: {
+                colors: {
+                    primary: {
+                        main: '#00897B',
+                    },
+                },
+            },
+        }, document.getElementById('redoc-container'));
+    </script>
+</body>
+</html>
