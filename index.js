@@ -6,10 +6,7 @@ const fs = require('fs');
 const { SwaggerTheme, SwaggerThemeNameEnum } = require('swagger-themes');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
-const dotenv = require('dotenv');
-
-// Cargar las variables de entorno desde el archivo .env
-dotenv.config();
+require('dotenv').config();
 
 // Configurar la conexión a la base de datos usando variables de entorno
 const connection = mysql.createConnection({
@@ -29,12 +26,10 @@ connection.connect(err => {
   }
 });
 
-// Middleware para servir archivos estáticos y parsear JSON
+app.use(express.static('public')); // Cambiar '/redoc.html' por 'public'
 app.use(express.json());
-app.use(express.static(path.join(__dirname)));
-
-// Configuración del tema de Swagger
 const theme = new SwaggerTheme();
+
 const readmeFile = fs.readFileSync(path.join(__dirname, 'README.md'), { encoding: 'utf8' });
 
 const options = {
@@ -55,16 +50,21 @@ const swaggerOptions = {
       description: readmeFile
     },
     servers: [
-      { url: "http://localhost:3000" }  // Puedes cambiar esto a la URL de tu despliegue en Render
+      { url: "https://openapi-g6x4.onrender.com" }  // Cambia a la URL de tu despliegue en Render
     ],
   },
-  apis: [`${path.join(__dirname,"./index.js")}`],
+  apis: [`${path.join(__dirname, "./index.js")}`],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs, options));
 app.get('/api-docs-json', (req, res) => {
   res.json(swaggerDocs);
+});
+
+// Ruta para la raíz ("/")
+app.get('/', (req, res) => {
+  res.redirect('/api-docs');
 });
 
 // Rutas de la API
