@@ -7,7 +7,7 @@ const { SwaggerTheme, SwaggerThemeNameEnum } = require('swagger-themes');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 
-// Configurar la conexión a la base de datos usando variables de entorno
+// Configurar2 la conexión a la base de datos usando variables de entorno
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
