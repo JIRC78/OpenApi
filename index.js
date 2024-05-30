@@ -6,8 +6,12 @@ const fs = require('fs');
 const { SwaggerTheme, SwaggerThemeNameEnum } = require('swagger-themes');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+const dotenv = require('dotenv');
 
-// Configurar2 la conexión a la base de datos usando variables de entorno
+// Cargar las variables de entorno desde el archivo .env
+dotenv.config();
+
+// Configurar la conexión a la base de datos usando variables de entorno
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -25,11 +29,13 @@ connection.connect(err => {
   }
 });
 
-app.use(express.static('/redoc.html'));
+// Middleware para servir archivos estáticos y parsear JSON
 app.use(express.json());
-const theme = new SwaggerTheme();
+app.use(express.static(path.join(__dirname)));
 
-const readmeFile = fs.readFileSync(path.join(__dirname, 'README.md'), { encoding: 'utf8'});
+// Configuración del tema de Swagger
+const theme = new SwaggerTheme();
+const readmeFile = fs.readFileSync(path.join(__dirname, 'README.md'), { encoding: 'utf8' });
 
 const options = {
   explorer: true,
